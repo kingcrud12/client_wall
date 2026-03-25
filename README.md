@@ -1,6 +1,6 @@
 # Client wall
 
-**Client wall** est une web app permettant aux freelances, entreprises, associations de créer des espaces pour gérer leurs clients, leurs collaborateurs : sur ces espaces , ces derniers peuvent retrouver : le contrat signé, les factures, l'avancement du projet, uploader des fichiers, payer une facture via stripe. discuter avec le freelance.
+**Client wall** est une web app permettant aux freelances, entreprises, associations de créer des espaces pour gérer leurs clients et leurs collaborateurs : sur ces espaces , ces derniers peuvent retrouver : le contrat signé, les factures, l'avancement du projet, uploader des fichiers, payer une facture via stripe. discuter avec le freelance.
 
 Les freelances peuvent quant à eux : mettre à jour l'état d'avancement d'un projet avec des captures d'écrans à l'appui, uploader des fichiers, discuter avec le client
 
