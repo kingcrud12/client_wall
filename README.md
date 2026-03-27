@@ -33,6 +33,33 @@ La zone admin doit permettre au propriétaire de :
 - centraliser les documents, contrats et factures ;
 - suivre les paiements ;
 
+### Parcours admin
+1. Création du workspace
+Le proprietaire crée son workspace en renseignant les élements "type identité" du workspace :
+	- le nom de l'espace ;
+	- le nom de l'activité / entreprise ;
+	- son identité visuelle eventuelle ;
+	- ses informations de contact ;
+	- sa devise ;
+	- ses préférences générales ;
+1. Paramétrage initial
+Une fois le workspace créé, le proprietaire peut :
+	- configurer Stripe pour recevoir les paiements ;
+	- définir les informations de facturation ;
+	- inviter des collaborateurs ;
+	- créer ses premiers clients ;
+	- définir l'organisation de stockage des documents ;
+	- configurer les notifications ;
+1. Gestion operationnelle
+Au quotidien, le proprietaire utilise la zone admin pour :
+	- ouvrir un nouveau projet ;
+	- rattacher un client à un projet ;
+	- déposer un contrat signé ;
+	- émettre une ou plusieurs factures ;
+	- publier l'avancement du projet ;
+	- échanger via la messagerie ;
+	- partager des fichiers ;
+	- suivre les paiements et relancer si nécessaire ;
 ## Zone collaborateurs
 
 c'est l'espace de travail interne pour l'équipe du prestataire.
