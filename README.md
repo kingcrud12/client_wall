@@ -34,32 +34,14 @@ La zone admin doit permettre au propriétaire de :
 - suivre les paiements ;
 
 ### Parcours admin
+
 1. Création du workspace
-Le proprietaire crée son workspace en renseignant les élements "type identité" du workspace :
-	- le nom de l'espace ;
-	- le nom de l'activité / entreprise ;
-	- son identité visuelle eventuelle ;
-	- ses informations de contact ;
-	- sa devise ;
-	- ses préférences générales ;
+   Le proprietaire crée son workspace en renseignant les élements "type identité" du workspace : - le nom de l'espace ; - le nom de l'activité / entreprise ; - son identité visuelle eventuelle ; - ses informations de contact ; - sa devise ; - ses préférences générales ;
 1. Paramétrage initial
-Une fois le workspace créé, le proprietaire peut :
-	- configurer Stripe pour recevoir les paiements ;
-	- définir les informations de facturation ;
-	- inviter des collaborateurs ;
-	- créer ses premiers clients ;
-	- définir l'organisation de stockage des documents ;
-	- configurer les notifications ;
+   Une fois le workspace créé, le proprietaire peut : - configurer Stripe pour recevoir les paiements ; - définir les informations de facturation ; - inviter des collaborateurs ; - créer ses premiers clients ; - définir l'organisation de stockage des documents ; - configurer les notifications ;
 1. Gestion operationnelle
-Au quotidien, le proprietaire utilise la zone admin pour :
-	- ouvrir un nouveau projet ;
-	- rattacher un client à un projet ;
-	- déposer un contrat signé ;
-	- émettre une ou plusieurs factures ;
-	- publier l'avancement du projet ;
-	- échanger via la messagerie ;
-	- partager des fichiers ;
-	- suivre les paiements et relancer si nécessaire ;
+   Au quotidien, le proprietaire utilise la zone admin pour : - ouvrir un nouveau projet ; - rattacher un client à un projet ; - déposer un contrat signé ; - émettre une ou plusieurs factures ; - publier l'avancement du projet ; - échanger via la messagerie ; - partager des fichiers ; - suivre les paiements et relancer si nécessaire ;
+
 ## Zone collaborateurs
 
 c'est l'espace de travail interne pour l'équipe du prestataire.
@@ -69,13 +51,13 @@ La zone collaborateur est conçue pour l'exécution et la production. Elle perme
 
 La zone collaborateurs doit permettre aux collaborateurs d'accéder :
 
-- Au Tableau de bord Projets
-- Mettre à jour d'Avancement : Outil permettant de changer l'état d'un projet (ex: "En cours" à "Révision") et d'ajouter des captures d'écran pour validation.
-- Faire la gestion Documentaire : Upload de livrables et accès aux fichiers sources partagés par le client.
-- Communiquer en Interne & Externe : Messagerie permettant de discuter avec le propriétaire (en interne) ou directement avec le client (si autorisé par le propriétaire).
-- Mettre à jour Feuille de temps (Optionnel) : Log des heures passées sur chaque phase du projet.
+- Au Tableau de bord Projets ;
+- Mettre à jour d'Avancement : Outil permettant de changer l'état d'un projet (ex: "En cours" à "Révision") et d'ajouter des captures d'écran pour validation ;
+- Faire la gestion Documentaire : Upload de livrables et accès aux fichiers sources partagés par le client ;
+- Communiquer en Interne & Externe : Messagerie permettant de discuter avec le propriétaire (en interne) ou directement avec le client (si autorisé par le propriétaire) ;
+- Mettre à jour Feuille de temps (Optionnel) : Log des heures passées sur chaque phase du projet ;
 
-Accès Restreint : Le collaborateur voit les factures liées à son projet pour suivi, mais ne peut généralement pas modifier les coordonnées bancaires du workspace.
+- Accès Restreint : Le collaborateur voit les factures liées à son projet pour suivi, mais ne peut généralement pas modifier les coordonnées bancaires du workspace ;
 
 ## Zone client
 
@@ -87,25 +69,25 @@ La zone client est un portail "en lecture seule" pour la structure du projet, ma
 
 La zone client client doit permettre au client de :
 
-- Consulter et télécharger le contrat signé (PDF).
+- Consulter et télécharger le contrat signé (PDF) ;
 
-- Consulter l'historique des factures avec indicateur de statut (Payé / En attente).
+- Consulter l'historique des factures avec indicateur de statut (Payé / En attente) ;
 
-- De payer une facture via un bouton intégrant stripe pour régler les factures instantanément par CB.
+- De payer une facture via un bouton intégrant stripe pour régler les factures instantanément par CB ;
 
 - Suivre ée Projet (Timeline) :
 
-- Visualisation de la barre de progression.
+- Visualisation de la barre de progression ;
 
-- Accès aux captures d'écran déposées par le collaborateur/freelance pour valider les étapes.
+- Accès aux captures d'écran déposées par le collaborateur/freelance pour valider les étapes ;
 
 - Centre de Partage :
 
-- Zone d'upload pour envoyer les éléments nécessaires au prestataire (logos, textes, briefs).
+- Zone d'upload pour envoyer les éléments nécessaires au prestataire (logos, textes, briefs) ;
 
-- Accès aux livrables finaux.
+- Accès aux livrables finaux ;
 
-- Messagerie Directe : Fil de discussion unique avec le prestataire pour éviter les emails perdus.
+- Messagerie Directe : Fil de discussion unique avec le prestataire pour éviter les emails perdus ;
 
 ## Fonctionnalités
 
