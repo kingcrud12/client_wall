@@ -15,11 +15,23 @@ Le propriétaire crée un workspace
 
 - zone admin / zone client / zone collaborateurs (Primo parcours)
 
-zone admin =
+## Zone admin
+La zone admin est l’espace principal du propriétaire du workspace, c’est-à-dire le freelance, le prestataire ou l’entreprise.
+Elle lui permet de piloter l’ensemble de la relation client, l’organisation documentaire, la collaboration interne et le suivi financier.
+### Objectifs de la zone admin
+La zone admin doit permettre au propriétaire de :
 
-zone collaborateurs =
+- créer et configurer son workspace ;
+- administrer les paramètres globaux de l’espace.
+- gérer ses clients et ses collaborateurs ;
+- gérer les accès et les permissions ;
+- communiquer avec les clients et les collaborateurs ;
+- créer et suivre les projets ;
+- centraliser les documents, contrats et factures ;
+- suivre les paiements ;
+## Zone collaborateurs
 
-zone client =
+## Zone client
 
 ## Fonctionnalités
 
