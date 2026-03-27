@@ -16,9 +16,12 @@ Le propriétaire crée un workspace
 - zone admin / zone client / zone collaborateurs (Primo parcours)
 
 ## Zone admin
+
 La zone admin est l’espace principal du propriétaire du workspace, c’est-à-dire le freelance, le prestataire ou l’entreprise.
 Elle lui permet de piloter l’ensemble de la relation client, l’organisation documentaire, la collaboration interne et le suivi financier.
+
 ### Objectifs de la zone admin
+
 La zone admin doit permettre au propriétaire de :
 
 - créer et configurer son workspace ;
@@ -29,6 +32,7 @@ La zone admin doit permettre au propriétaire de :
 - créer et suivre les projets ;
 - centraliser les documents, contrats et factures ;
 - suivre les paiements ;
+
 ### Parcours admin
 1. Création du workspace
 Le proprietaire crée son workspace en renseignant les élements "type identité" du workspace :
@@ -58,7 +62,50 @@ Au quotidien, le proprietaire utilise la zone admin pour :
 	- suivre les paiements et relancer si nécessaire ;
 ## Zone collaborateurs
 
+c'est l'espace de travail interne pour l'équipe du prestataire.
+La zone collaborateur est conçue pour l'exécution et la production. Elle permet aux membres de l'équipe (employés, sous-traitants) de gérer les tâches quotidiennes sans forcément avoir accès aux données sensibles du compte (chiffre d'affaires global, paramètres de facturation Stripe du propriétaire).
+
+### Objectifs de la zone admin
+
+La zone collaborateurs doit permettre aux collaborateurs d'accéder :
+
+- Au Tableau de bord Projets
+- Mettre à jour d'Avancement : Outil permettant de changer l'état d'un projet (ex: "En cours" à "Révision") et d'ajouter des captures d'écran pour validation.
+- Faire la gestion Documentaire : Upload de livrables et accès aux fichiers sources partagés par le client.
+- Communiquer en Interne & Externe : Messagerie permettant de discuter avec le propriétaire (en interne) ou directement avec le client (si autorisé par le propriétaire).
+- Mettre à jour Feuille de temps (Optionnel) : Log des heures passées sur chaque phase du projet.
+
+Accès Restreint : Le collaborateur voit les factures liées à son projet pour suivi, mais ne peut généralement pas modifier les coordonnées bancaires du workspace.
+
 ## Zone client
+
+c'est l'espace de transparence et de self-service pour l'usager final.
+
+La zone client est un portail "en lecture seule" pour la structure du projet, mais "en lecture/écriture" pour la collaboration et le paiement. L'objectif est de rassurer le client et de centraliser tous ses échanges.
+
+### Objectifs de la zone client
+
+La zone client client doit permettre au client de :
+
+- Consulter et télécharger le contrat signé (PDF).
+
+- Consulter l'historique des factures avec indicateur de statut (Payé / En attente).
+
+- De payer une facture via un bouton intégrant stripe pour régler les factures instantanément par CB.
+
+- Suivre ée Projet (Timeline) :
+
+- Visualisation de la barre de progression.
+
+- Accès aux captures d'écran déposées par le collaborateur/freelance pour valider les étapes.
+
+- Centre de Partage :
+
+- Zone d'upload pour envoyer les éléments nécessaires au prestataire (logos, textes, briefs).
+
+- Accès aux livrables finaux.
+
+- Messagerie Directe : Fil de discussion unique avec le prestataire pour éviter les emails perdus.
 
 ## Fonctionnalités
 
