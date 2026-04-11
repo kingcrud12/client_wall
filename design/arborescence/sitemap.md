@@ -60,7 +60,8 @@ Vue d'ensemble de toutes les routes du produit, toutes zones confondues.
         │   └── :invoiceId            ← Détail facture + bouton paiement
         ├── progress                  ← Rapports d'avancement publiés
         ├── files                     ← Fichiers partagés / upload
-        └── messaging                 ← Messagerie (thread dédié)
+        ├── messaging                 ← Messagerie (thread dédié)
+        └── profile                   ← Profil et préférences du compte
 ```
 
 ---
@@ -77,24 +78,24 @@ Vue d'ensemble de toutes les routes du produit, toutes zones confondues.
 
 ---
 
-## Pages manquantes / non implémentées
+## Pages spécifiées
 
-Ces routes sont nécessaires mais non encore spécifiées en détail :
+Toutes les routes listées ci-dessous ont une spec de page dédiée :
 
-| Route | Statut | Priorité |
-|---|---|---|
-| `/admin/billing` | Manquante | Haute |
-| `/admin/projects/new` | Manquante | Haute |
-| `/admin/projects/:id/zones` | Manquante | Haute |
-| `/admin/projects/:id/members` | Manquante | Haute |
-| `/admin/projects/:id/settings` | Manquante | Moyenne |
-| `/admin/projects/:id/log-global` | Manquante | Moyenne |
-| `/collab/projects/:id/reports/new` | Manquante | Haute |
-| `/auth/forgot-password` | Manquante | Haute |
-| `/auth/reset-password` | Manquante | Haute |
-| Onboarding workspace | Manquante | Haute |
-| Page 404 | Manquante | Haute |
-| Page erreur générique | Manquante | Haute |
+| Route | Fichier spec |
+|---|---|
+| `/admin/billing` | `pages/admin/billing.md` |
+| `/admin/projects/new` | `pages/admin/project-new.md` |
+| `/admin/projects/:id/zones` | `pages/admin/project-zones.md` |
+| `/admin/projects/:id/members` | `pages/admin/members.md` |
+| `/admin/projects/:id/settings` | `pages/admin/project-settings.md` |
+| `/admin/projects/:id/log-global` | `pages/admin/log-global.md` |
+| `/collab/projects/:id/reports/new` | `pages/collaborateurs/progress-reports.md` |
+| `/auth/forgot-password` | `pages/auth/forgot-password.md` |
+| `/auth/reset-password` | `pages/auth/reset-password.md` |
+| Onboarding workspace | `pages/admin/onboarding.md` |
+| Page 404 | `pages/404.md` |
+| Page erreur générique | `pages/error.md` |
 
 ---
 

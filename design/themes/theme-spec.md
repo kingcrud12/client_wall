@@ -72,7 +72,7 @@ Les ombres box-shadow sont moins visibles sur fond sombre. En mode dark, les él
 
 ## Zones et thème sombre
 
-Les couleurs d'accentuation des zones restent identiques en mode dark (Indigo, Sky, Emerald). Seules les déclinaisons de surface changent.
+Les couleurs d'accentuation des zones restent identiques en mode dark (Slate, Sky, Emerald). Seules les déclinaisons de surface changent.
 
 ---
 

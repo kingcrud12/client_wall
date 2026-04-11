@@ -4,13 +4,31 @@
 **Route** : `/client/:projectId/files`  
 **Auth** : membre zone client (permission `read:document`)  
 **Upload** : permission `add:document` requise  
-**Composants** : `FileUploader`, `Button`, `Badge`, `Navbar`
+**Suppression** : permission `delete:document` ou être l'auteur du fichier  
+**Composants** : `FileUploader`, `Button`, `Badge`, `Input`, `Navbar`
 
 ---
 
 ## Objectif
 
-Permettre au client de consulter et télécharger les documents partagés par l'organisation, et d'uploader des fichiers depuis son côté (livrables, briefs, assets).
+Permettre au client de consulter et télécharger les documents partagés par l'organisation, de prévisualiser les images et PDF, et d'uploader ses propres fichiers (briefs, assets, retours).
+
+---
+
+## Layout
+
+```
+[Topbar]
+┌────────────────────────────────────────────────────────────┐
+│  Header : titre + bouton upload                            │
+├────────────────────────────────────────────────────────────┤
+│  Filtres + recherche                                       │
+├────────────────────────────────────────────────────────────┤
+│  Section : Documents partagés par l'organisation           │
+├────────────────────────────────────────────────────────────┤
+│  Section : Vos fichiers                                    │
+└────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -19,66 +37,185 @@ Permettre au client de consulter et télécharger les documents partagés par l'
 ### 1. Header
 
 ```
-Fichiers — Projet Alpha         [+ Ajouter un fichier (si permission)]
+Fichiers — Projet Alpha                    [+ Ajouter un fichier]
 ```
 
-### 2. Filtres
+Le bouton [+ Ajouter un fichier] est masqué si la permission `add:document` est absente.
+
+### 2. Filtres et recherche
 
 ```
-[Tous] [Partagés avec moi] [Mes fichiers]    [🔍 Rechercher...]
+[Tous]  [Partagés avec moi]  [Mes fichiers]     [🔍 Rechercher un fichier...]
 ```
 
-### 3. Liste des fichiers
-
-**Partagés par l'organisation** (section "Documents") :
+Filtre par type (optionnel, sur desktop) :
 
 ```
-Partagés par Mon Agence SAS
-
-📄 devis-2024-v2.pdf           PDF   2.3 MB   15 janv. 2025   [Télécharger]
-📊 planning-general.xlsx       XLSX  450 KB   10 janv. 2025   [Télécharger]
-📸 maquettes-validees.zip      ZIP   15.2 MB  08 janv. 2025   [Télécharger]
+Type : [Tous ▼]   (PDF · Images · Documents · Archives · Autres)
 ```
 
-**Uploadés par le client** (section "Mes fichiers") :
+### 3. Section — Documents partagés par l'organisation
+
+Titre : "Partagés par [Nom du workspace]"
+
+Affichage en liste (desktop) ou cards (mobile) :
 
 ```
-Vos fichiers
+┌───────────────────────────────────────────────────────────────────┐
+│  📄 devis-2024-v2.pdf           PDF    2,3 MB   15 janv. 2025    │
+│     Partagé par Mon Agence SAS                                    │
+│                             [Prévisualiser]  [Télécharger]        │
+├───────────────────────────────────────────────────────────────────┤
+│  📊 planning-general.xlsx       XLSX   450 KB   10 janv. 2025    │
+│     Partagé par Mon Agence SAS                                    │
+│                                           [Télécharger]           │
+├───────────────────────────────────────────────────────────────────┤
+│  🖼 maquettes-v3.zip            ZIP    15,2 MB  08 janv. 2025    │
+│     Partagé par Mon Agence SAS                                    │
+│                                           [Télécharger]           │
+└───────────────────────────────────────────────────────────────────┘
+```
 
-📋 brief-initial.docx          DOCX  1.2 MB   05 janv. 2025   [Télécharger] [Supprimer]
-🖼 logo-hd.png                 PNG   3.4 MB   05 janv. 2025   [Télécharger] [Supprimer]
+**Règle d'affichage** : uniquement les fichiers explicitement partagés avec la zone client. Les documents internes (timesheets, notes, etc.) ne sont jamais visibles.
+
+### 4. Section — Vos fichiers
+
+Titre : "Vos fichiers"  
+Sous-titre : "Fichiers que vous avez partagés avec l'équipe."
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  📋 brief-initial.docx          DOCX   1,2 MB   05 janv. 2025   │
+│                                     [Prévisualiser]  [Télécharger]  [Supprimer] │
+├───────────────────────────────────────────────────────────────────┤
+│  🖼 logo-hd.png                 PNG    3,4 MB   05 janv. 2025   │
+│                                     [Prévisualiser]  [Télécharger]  [Supprimer] │
+└───────────────────────────────────────────────────────────────────┘
+
 [+ Ajouter un fichier]
 ```
 
 ---
 
-## Upload client
+## Prévisualisation
 
-Déclenché par [+ Ajouter un fichier] :
+### Images (PNG, JPG, GIF, WEBP, SVG)
 
-`FileUploader` en modal ou zone inline :
-- Formats : tous (selon plan)
-- Taille max : selon plan du workspace
-- Multiple : oui
+Clic sur [Prévisualiser] → lightbox plein écran :
 
-Les fichiers uploadés par le client (`uploaded_by_client`) sont :
-- Visibles par le client qui les a uploadés
-- Automatiquement visibles par l'organisation (managers + collaborateurs autorisés)
-- Non visibles par d'autres clients de la même zone (sauf config explicite)
+```
+┌──────────────────────────────────────────────────────────┐
+│  ✕                         logo-hd.png              [⬇]  │
+│                                                          │
+│                    [Image centrée, zoomable]             │
+│                                                          │
+│                                           ← 1/2 →        │
+└──────────────────────────────────────────────────────────┘
+```
+
+- Fermeture : clic extérieur, touche Echap, bouton ✕
+- Navigation entre images du même dossier : flèches ←/→ ou touches clavier
+- Bouton [⬇] pour télécharger depuis la lightbox
+- Zoom : double-clic ou pinch (mobile)
+
+### PDF
+
+Clic sur [Prévisualiser] → modal avec iframe PDF :
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  devis-2024-v2.pdf                              [⬇]  ✕  │
+│  ────────────────────────────────────────────────────── │
+│                                                          │
+│  [Iframe PDF — scrollable]                               │
+│                                                          │
+│                                       ← Page 2/5 →       │
+└──────────────────────────────────────────────────────────┘
+```
+
+Fallback si iframe non supportée : "Votre navigateur ne peut pas prévisualiser ce PDF." + [Télécharger]
+
+### Autres types (DOCX, XLSX, ZIP...)
+
+Pas de prévisualisation. Bouton [Télécharger] uniquement.
 
 ---
 
-## Informations par fichier
+## Upload
 
-| Métadonnée | Description |
+Déclenché par [+ Ajouter un fichier] ou glisser-déposer dans la section "Vos fichiers" :
+
+```
+┌──────────────────────────────────────────────────────────┐
+│              Ajout d'un fichier                          │
+│                                                          │
+│  Glissez vos fichiers ici, ou                            │
+│  [Parcourir les fichiers]                                │
+│                                                          │
+│  Formats acceptés : tous                                 │
+│  Taille maximale : 50 Mo par fichier                     │
+│                                                          │
+│  logo-hd.png             3,4 MB   ██████████  ✓ Envoyé  │
+│  brief-v2.docx           1,2 MB   ████░░░░░░   42%…     │
+└──────────────────────────────────────────────────────────┘
+```
+
+- Upload multiple simultané
+- Barre de progression individuelle par fichier
+- Statut par fichier : En cours / Envoyé ✓ / Erreur ✗
+- Annulation possible pendant l'upload (bouton ✕ par fichier)
+- Après envoi : fichier visible immédiatement dans la section "Vos fichiers"
+- L'organisation voit immédiatement les fichiers uploadés par le client
+
+### Erreurs d'upload
+
+| Erreur | Message |
 |---|---|
-| Icône type | Déduite de l'extension |
-| Nom du fichier | Tronqué si trop long |
-| Type | Extension (PDF, DOCX, PNG...) |
-| Taille | Format humain (KB, MB) |
-| Date | Date d'upload |
-| Partagé par | Nom si uploadé par org |
-| Actions | Télécharger + Supprimer (si auteur) |
+| Fichier trop lourd | "Ce fichier dépasse la limite de 50 Mo." |
+| Quota atteint | "Votre espace est plein. Contactez Mon Agence SAS." |
+| Type refusé | "Ce type de fichier n'est pas autorisé." |
+| Erreur réseau | "Échec de l'envoi. Réessayez." |
+
+---
+
+## Suppression
+
+Clic sur [Supprimer] → dialog de confirmation :
+
+```
+Supprimer "brief-initial.docx" ?
+Ce fichier sera définitivement supprimé et inaccessible à l'équipe.
+
+[Supprimer]  (Button danger)   [Annuler]
+```
+
+Seul l'auteur du fichier peut le supprimer. Le bouton [Supprimer] n'apparaît pas sur les fichiers partagés par l'organisation.
+
+---
+
+## Indicateur de quota (conditionnel)
+
+Affiché uniquement si le quota de stockage est proche de la limite (> 80%) :
+
+```
+Stockage : 4,2 Go / 5 Go utilisés   ████████████████░░  84%
+```
+
+Si quota atteint (100%) : Alert `error` + bouton upload désactivé.
+
+---
+
+## Informations affichées par fichier
+
+| Métadonnée | Affichée |
+|---|---|
+| Icône type | Oui (déduite de l'extension) |
+| Nom du fichier | Oui (tronqué si > 40 chars) |
+| Extension | Oui |
+| Taille | Oui |
+| Date d'upload | Oui |
+| Partagé par | Oui si uploadé par l'organisation |
+| Actions | Selon permissions |
 
 ---
 
@@ -87,17 +224,18 @@ Les fichiers uploadés par le client (`uploaded_by_client`) sont :
 | État | Affichage |
 |---|---|
 | Loading | Skeleton liste |
-| Aucun fichier partagé | "Aucun document partagé pour l'instant." |
-| Aucun fichier client | "Uploadez vos fichiers pour les partager avec l'équipe." |
+| Aucun fichier partagé | "L'équipe n'a pas encore partagé de fichiers." |
+| Aucun fichier client | "Partagez vos fichiers avec l'équipe." + [+ Ajouter un fichier] |
+| Résultat de recherche vide | "Aucun fichier ne correspond à votre recherche." + [Réinitialiser] |
+| Upload en cours | Barre de progression inline + bouton annuler |
 | Erreur téléchargement | Toast error "Téléchargement impossible. Réessayez." |
-| Upload en cours | Barre de progression inline |
 
 ---
 
 ## Données non affichées
 
-- Documents non exposés à la zone client (même s'ils existent dans le projet)
-- Documents confidentiels (notes internes, timesheets)
+- Fichiers des zones Collaborateurs ou Admin non explicitement partagés avec la zone client
+- Métadonnées internes (chemin S3, ID techniques)
 
 ---
 
@@ -105,6 +243,6 @@ Les fichiers uploadés par le client (`uploaded_by_client`) sont :
 
 | Breakpoint | Comportement |
 |---|---|
-| Mobile | Liste verticale, boutons d'action inline |
-| Tablet | Liste 2 colonnes |
-| Desktop | Liste 3 colonnes ou tableau |
+| Mobile | Liste verticale ; lightbox plein écran ; upload en modal fullscreen |
+| Tablet | Liste avec colonnes nom + taille + date + actions ; lightbox modal |
+| Desktop | Liste complète + filtres type inline ; lightbox ; prévisualisation PDF modal large |

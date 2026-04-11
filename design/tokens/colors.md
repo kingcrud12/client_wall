@@ -6,10 +6,10 @@ Palette complète du design system Client Wall. Toutes les couleurs sont défini
 
 ## Philosophie couleur
 
-Client Wall est un outil professionnel B2B. La palette doit inspirer **confiance**, **clarté** et **efficacité**. Pas de couleurs vives ou ludiques — sobriété et lisibilité en priorité.
+Client Wall est un outil professionnel B2B. La palette doit inspirer **confiance**, **clarté** et **efficacité**. L'accent primaire est distinct du neutre pour que les éléments interactifs soient immédiatement identifiables.
 
-- **Primaire** : Indigo — autorité, fiabilité, technologie
-- **Neutre** : Slate — propre, professionnel, sans distraction
+- **Primaire** : Indigo (#6366F1) — sérieux, confiant, identité produit claire
+- **Neutre** : Slate — propre, professionnel, sans distraction (textes, bordures, fonds)
 - **Sémantiques** : vert (succès), rouge (erreur), orange (attention), bleu (info)
 
 ---
@@ -20,15 +20,15 @@ Client Wall est un outil professionnel B2B. La palette doit inspirer **confiance
 |---|---|---|
 | `--color-primary-50` | `#EEF2FF` | Backgrounds légers, hover subtle |
 | `--color-primary-100` | `#E0E7FF` | Backgrounds actifs, selected |
-| `--color-primary-200` | `#C7D2FE` | Borders hover |
-| `--color-primary-300` | `#A5B4FC` | Icônes secondaires |
-| `--color-primary-400` | `#818CF8` | États disabled d'éléments actifs |
-| `--color-primary-500` | `#6366F1` | Brand couleur principale |
-| `--color-primary-600` | `#4F46E5` | Boutons primaires, liens actifs |
-| `--color-primary-700` | `#4338CA` | Bouton hover |
-| `--color-primary-800` | `#3730A3` | Bouton pressed |
-| `--color-primary-900` | `#312E81` | Textes dark sur fond clair |
-| `--color-primary-950` | `#1E1B4B` | Sidebar dark, titres foncés |
+| `--color-primary-200` | `#C7D2FE` | Borders subtiles, accent KPI cards |
+| `--color-primary-300` | `#A5B4FC` | Texte actif sidebar, icônes accent |
+| `--color-primary-400` | `#818CF8` | Indicateur actif sidebar, focus border dark |
+| `--color-primary-500` | `#6366F1` | Brand couleur principale, progress bar |
+| `--color-primary-600` | `#4F46E5` | Boutons primaires dark mode, liens |
+| `--color-primary-700` | `#4338CA` | Boutons primaires light mode |
+| `--color-primary-800` | `#3730A3` | Bouton hover / pressed |
+| `--color-primary-900` | `#312E81` | Bouton active state |
+| `--color-primary-950` | `#1E1B4B` | Auth panel gradient, fond sombre brand |
 
 ---
 
@@ -148,6 +148,6 @@ Chaque zone a une teinte d'accentuation pour différencier visuellement l'espace
 
 | Zone | Token | Valeur HEX | Usage |
 |---|---|---|---|
-| Admin | `--color-zone-admin` | `#4F46E5` | Indigo — sidebar, topbar |
+| Admin | `--color-zone-admin` | `#1E293B` | Slate profond — sidebar, topbar |
 | Collaborateurs | `--color-zone-collab` | `#0EA5E9` | Sky — sidebar, topbar |
 | Client | `--color-zone-client` | `#10B981` | Emerald — sidebar, topbar |

@@ -41,7 +41,7 @@ La couleur de fond est calculée de façon déterministe depuis le nom de l'util
 
 ```javascript
 const COLORS = [
-  '#4F46E5', // indigo
+  '#1E293B', // slate
   '#0EA5E9', // sky
   '#10B981', // emerald
   '#F59E0B', // amber
@@ -71,7 +71,7 @@ function getAvatarColor(name: string): string {
 <span
   class="avatar avatar--base"
   aria-label="Marie Dupont"
-  style="background-color: #4F46E5;"
+  style="background-color: #1E293B;"
 >
   <span class="avatar__initials" aria-hidden="true">MD</span>
 </span>

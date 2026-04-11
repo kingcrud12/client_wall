@@ -63,7 +63,7 @@ Discrétion > Ostentation
 ## Nom et identité visuelle
 
 - **Nom** : Client Wall — "le mur client", interface de séparation et de collaboration entre le prestataire et le client
-- **Couleur primaire** : Indigo — autorité, fiabilité, digital professionnel
+- **Couleur primaire** : Indigo (4338CA) — sérieux, identité claire, confiance assumée
 - **Police** : Inter — propre, lisible, designed pour les écrans
 - **Icônes** : Lucide React — cohérentes, légères, professionnelles
 

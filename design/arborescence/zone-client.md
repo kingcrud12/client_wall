@@ -1,6 +1,6 @@
 # Arborescence — Zone Client
 
-Zone réservée aux **clients externes**. Interface épurée, centrée sur la consultation et les actions de collaboration autorisées. Accès lecture prédominant, actions d'écriture limitées (upload, paiement, messagerie).
+Zone réservée aux **clients externes**. Interface épurée, centrée sur la consultation et les actions de collaboration autorisées. Accès lecture prédominant, actions d'écriture limitées (upload, paiement, messagerie, signature).
 
 ---
 
@@ -16,10 +16,11 @@ Zone réservée aux **clients externes**. Interface épurée, centrée sur la co
 
 ## Principe de la zone client
 
-- Un client ne voit **jamais** les données internes (coûts, marges, taux horaires)
+- Un client ne voit **jamais** les données internes (coûts, marges, taux horaires, montants HT)
 - Un client voit uniquement les documents **explicitement exposés** à sa zone
-- Un client peut **payer une facture** si son rôle le permet
-- La messagerie client ↔ collaborateur est **interdite par défaut**
+- Un client peut **payer une facture** si son rôle inclut `pay:invoice`
+- Un client peut **signer ou rejeter un contrat** si son rôle inclut `sign:contract`
+- La messagerie client ↔ collaborateur est **interdite par défaut** (nécessite `cross_zone_authorization`)
 - Plusieurs représentants d'un même client peuvent coexister dans une zone avec des rôles différents
 
 ---
@@ -33,68 +34,94 @@ Zone réservée aux **clients externes**. Interface épurée, centrée sur la co
     ├── (Dashboard client)
     │   Route : /client/:projectId/
     │   Auth : membre d'une zone client du projet
+    │   Spec : pages/client/dashboard.md
     │   Description : Vue synthétique du projet côté client.
-    │     - Nom du projet
-    │     - Progression globale (% si rapport publié)
-    │     - Dernier rapport d'avancement
-    │     - Factures récentes
-    │     - Messages non lus
-    │     - Raccourcis vers toutes les sections
+    │     - Topbar avec navigation + notifications + profil
+    │     - Alerte prioritaire (contrat à signer, facture en retard)
+    │     - Progression globale basée sur le dernier rapport
+    │     - Cards résumé : Contrat / Factures / Fichiers / Messages
+    │     - Aperçu du dernier rapport d'avancement
+    │     - Banner onboarding premier accès
     │
     ├── contract
     │   Route : /client/:projectId/contract
     │   Auth : membre zone client (permission read:contract)
-    │   Description : Visualisation et signature du contrat du projet.
+    │   Spec : pages/client/contract.md
+    │   Description : Consultation, signature et rejet du contrat.
     │     - Visualisation PDF embarqué
     │     - Statut : pending / signed / rejected
-    │     - Bouton de signature (redirection vers outil externe)
-    │     - Téléchargement du document signé
+    │     - Signature (redirection outil externe) si sign:contract
+    │     - Rejet avec motif (dialog) si sign:contract
+    │     - Historique des versions contractuelles
+    │     - Téléchargement du document (signé ou non)
     │
     ├── invoices/
     │   │
     │   ├── (Liste des factures)
     │   │   Route : /client/:projectId/invoices/
     │   │   Auth : membre zone client (permission read:invoice)
+    │   │   Spec : pages/client/invoices.md
     │   │   Description : Toutes les factures du projet accessibles au client.
-    │   │     - Filtres : statut (issued, paid, overdue...)
-    │   │     - Indicateur visuel du statut
-    │   │     - Montants HT et TTC
+    │   │     - Bannière alerte si facture overdue
+    │   │     - Métriques synthèse (payé, à régler, en retard) en TTC
+    │   │     - Filtres : Toutes / À payer / En retard / Payées
+    │   │     - Actions selon statut et permissions
     │   │
     │   └── :invoiceId
     │       Route : /client/:projectId/invoices/:invoiceId
     │       Auth : membre zone client (permission read:invoice)
+    │       Spec : pages/client/invoices.md
     │       Description : Détail d'une facture.
-    │         - Tous les champs de la facture (émetteur, destinataire, lignes)
-    │         - Total HT, TVA, TTC
-    │         - Bouton paiement Stripe (si statut issued/overdue ET permission pay:invoice)
-    │         - Téléchargement PDF
+    │         - Document facture formaté (montants TTC uniquement)
+    │         - Paiement Stripe si statut issued/overdue ET permission pay:invoice
+    │         - Gestion du solde restant si partially_paid
+    │         - Téléchargement PDF + reçu de paiement si paid
     │
     ├── progress
     │   Route : /client/:projectId/progress
     │   Auth : membre zone client (permission read:progress_report)
+    │   Spec : pages/client/progress.md
     │   Description : Historique des rapports d'avancement publiés.
-    │     - Timeline chronologique
-    │     - Milestones avec statut (todo, in_progress, done)
-    │     - Barre de progression globale
-    │     - Narration et prochaines étapes
-    │     - Fichiers/captures attachés
+    │     - Progression globale sticky (couleur selon %)
+    │     - Fil chronologique avec milestones illustrés
+    │     - Couleur de la ProgressBar adaptative (rouge → orange → bleu → vert)
+    │     - Prévisualisation des fichiers joints (lightbox image, iframe PDF)
+    │     - Navigation d'ancrage entre rapports (desktop ≥ 3 rapports)
     │
     ├── files
     │   Route : /client/:projectId/files
     │   Auth : membre zone client (permission read:document)
+    │   Spec : pages/client/files.md
     │   Description : Centre de fichiers partagés avec le client.
-    │     - Documents exposés par l'organisation à la zone client
-    │     - Upload client (si permission add:document)
-    │     - Téléchargement
-    │     - Organisation par type / date
+    │     - Documents partagés par l'organisation (section dédiée)
+    │     - Fichiers uploadés par le client (section dédiée)
+    │     - Prévisualisation images (lightbox) et PDF (iframe modal)
+    │     - Upload multiple avec progression par fichier (si add:document)
+    │     - Suppression fichiers propres (si delete:document ou auteur)
+    │     - Indicateur quota stockage si > 80%
     │
-    └── messaging
-        Route : /client/:projectId/messaging
-        Auth : membre zone client (permission message_read:message)
-        Description : Messagerie avec l'organisation.
-          - Threads de la zone client
-          - Créer un message (si permission message_write:message)
-          - Messagerie directe avec collaborateur (si cross_zone_authorization)
+    ├── messaging
+    │   Route : /client/:projectId/messaging
+    │   Auth : membre zone client (permission message_read:message)
+    │   Spec : pages/client/messaging.md
+    │   Description : Messagerie avec l'organisation.
+    │     - Threads zone client avec indicateurs non lus
+    │     - Création de sujet (si message_write:message)
+    │     - Messages directs avec collaborateur (si cross_zone_authorization)
+    │     - Pièces jointes dans les messages (images + fichiers)
+    │     - Indicateurs de lecture (envoyé / délivré / lu)
+    │     - Indicateur de frappe en temps réel
+    │
+    └── profile
+        Route : /client/:projectId/profile
+        Auth : utilisateur connecté
+        Spec : pages/client/profile.md
+        Description : Profil et préférences du compte client.
+          - Informations personnelles (prénom, nom, email, poste)
+          - Avatar avec crop
+          - Changement de mot de passe
+          - Préférences de notification par email
+          - Déconnexion (appareil courant ou tous appareils)
 ```
 
 ---
@@ -110,29 +137,53 @@ Zone réservée aux **clients externes**. Interface épurée, centrée sur la co
 
 | Route | Param | Valeurs | Usage |
 |---|---|---|---|
-| `/client/:projectId/invoices/` | `status` | `issued`, `paid`, `overdue` | Filtrer factures |
-| `/client/:projectId/files` | `type` | `contract`, `file`, `invoice`... | Filtrer type |
+| `/client/:projectId/invoices/` | `status` | `issued`, `paid`, `overdue` | Pré-filtrer les factures |
+| `/client/:projectId/files` | `type` | `pdf`, `image`, `doc`, `archive` | Filtrer par type de fichier |
+| `/auth/login` | `session_expired` | `1` | Message "session expirée" sur la page de login |
 
 ---
 
 ## Navigation Zone Client
 
-Navigation simplifiée — pas de sidebar complexe. Navigation horizontale fixe en haut.
+Navigation horizontale en topbar — pas de sidebar.
 
 ```
-[Topbar]
-Logo Client Wall | Nom du projet | [Profil] [Déconnexion]
+[Logo workspace]  [Nom du projet]
 
-[Navigation principale]
-Aperçu | Contrat | Factures | Avancement | Fichiers | Messages
+[Aperçu]  [Contrat •]  [Factures 2]  [Avancement •]  [Fichiers]  [Messages 3]
+
+                                                    [🔔]  [Jean D. ▾]
 ```
+
+- Badges numériques sur les onglets avec données non lues
+- Point `•` si événement non consulté (nouveau rapport, contrat en attente...)
+- Hamburger sur mobile → drawer pleine hauteur
 
 ---
 
-## Pages manquantes zone client
+## Permissions clés
 
-| Page | Statut | Raison |
-|---|---|---|
-| Onboarding client (premier accès) | Manquante | Expérience première connexion non définie |
-| Accès révoqué / zone fermée | Manquante | État d'erreur métier non spécifié |
-| Multi-projets (client sur plusieurs projets) | Manquante | Cas d'usage possible mais non couvert |
+| Permission | Effet sur l'interface |
+|---|---|
+| `read:contract` | Onglet Contrat visible |
+| `sign:contract` | Boutons Signer / Refuser visibles |
+| `read:invoice` | Onglet Factures visible |
+| `pay:invoice` | Bouton Payer visible |
+| `read:progress_report` | Onglet Avancement visible |
+| `read:document` | Onglet Fichiers visible |
+| `add:document` | Bouton upload visible |
+| `delete:document` | Bouton supprimer ses fichiers visible |
+| `message_read:message` | Onglet Messages visible |
+| `message_write:message` | Zone de saisie + bouton nouveau sujet visibles |
+
+Si aucune permission n'est accordée pour un module, l'onglet correspondant est masqué de la topbar.
+
+---
+
+## Cas non couverts (à spécifier si besoin)
+
+| Cas | Notes |
+|---|---|
+| Client sur plusieurs projets | Pas de dashboard multi-projets côté client — chaque projet est une URL distincte |
+| Accès révoqué / zone fermée | Afficher la page d'erreur générique avec message "Vous n'avez plus accès à cet espace." |
+| Onboarding guidé pas à pas | Couvert par le banner first_login dans le dashboard |

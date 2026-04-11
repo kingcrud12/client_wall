@@ -31,9 +31,9 @@ html.light {
 
   /* === BOUTONS === */
   /* Primaire */
-  --btn-primary-bg:        #4F46E5;
-  --btn-primary-bg-hover:  #4338CA;
-  --btn-primary-bg-active: #3730A3;
+  --btn-primary-bg:        #4338CA;
+  --btn-primary-bg-hover:  #3730A3;
+  --btn-primary-bg-active: #312E81;
   --btn-primary-text:      #FFFFFF;
   --btn-primary-border:    transparent;
 
@@ -68,14 +68,14 @@ html.light {
   --input-text:        #0F172A;
   --input-placeholder: #94A3B8;
 
-  /* === NAVIGATION (Zone Admin - Indigo) === */
-  --sidebar-bg:           #1E1B4B; /* primary-950 */
-  --sidebar-text:         #C7D2FE; /* primary-200 */
-  --sidebar-text-muted:   #818CF8; /* primary-400 */
-  --sidebar-item-hover:   #312E81; /* primary-900 */
-  --sidebar-item-active:  #3730A3; /* primary-800 */
-  --sidebar-item-active-text: #FFFFFF;
-  --sidebar-border:       #312E81; /* primary-900 */
+  /* === NAVIGATION (Zone Admin - Slate) === */
+  --sidebar-bg:           #0F172A; /* primary-900 */
+  --sidebar-text:         #CBD5E1; /* primary-300 */
+  --sidebar-text-muted:   #94A3B8; /* primary-400 */
+  --sidebar-item-hover:   #1E293B; /* primary-800 */
+  --sidebar-item-active:  rgba(99, 102, 241, 0.12); /* primary indigo */
+  --sidebar-item-active-text: #A5B4FC; /* primary-300 */
+  --sidebar-border:       #1E293B; /* primary-800 */
 
   /* === TOPBAR === */
   --topbar-bg:     #FFFFFF;
@@ -120,7 +120,7 @@ html.light {
   --badge-primary-text: #4338CA;
 
   /* === ÉTATS FOCUS === */
-  --focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.4); /* primary-500 @ 40% */
+  --focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.35); /* primary indigo @ 35% */
   --focus-ring-error: 0 0 0 3px rgba(244, 63, 94, 0.4);
 
   /* === OVERLAYS === */

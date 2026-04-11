@@ -32,11 +32,11 @@
 ## Variantes
 
 ### `primary`
-Fond plein indigo. Actions principales (submit, CTA, action majeure).
+Fond plein slate (bleu nuit). Actions principales (submit, CTA, action majeure).
 
 ```
-Background : --btn-primary-bg (#4F46E5)
-Hover      : --btn-primary-bg-hover (#4338CA)
+Background : --btn-primary-bg (#1E293B)
+Hover      : --btn-primary-bg-hover (#0F172A)
 Text       : --btn-primary-text (#FFFFFF)
 ```
 

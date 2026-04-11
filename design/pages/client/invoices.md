@@ -4,131 +4,206 @@
 **Route liste** : `/client/:projectId/invoices/`  
 **Route détail** : `/client/:projectId/invoices/:invoiceId`  
 **Auth** : membre zone client (permission `read:invoice`)  
-**Paiement** : permission `pay:invoice` requise pour le bouton payer  
-**Composants** : `Badge`, `Button`, `CardInvoice`, `InvoiceTable`, `Navbar`
+**Paiement** : permission `pay:invoice` requise  
+**Composants** : `Badge`, `Button`, `CardInvoice`, `Navbar`
 
 ---
 
 ## Objectif
 
-Permettre au client de consulter toutes ses factures et de payer celles qui sont en attente via Stripe.
+Permettre au client de consulter toutes ses factures, payer celles qui sont en attente via Stripe, et télécharger les reçus. L'interface distingue clairement ce qui nécessite une action de ce qui est archivé.
 
 ---
 
 ## Page Liste (`/invoices/`)
 
-### Sections
-
-#### Header
+### Header
 
 ```
 Mes factures — Projet Alpha
 ```
 
-#### Métriques (simplifiées, sans données confidentielles)
+### Bannière d'alerte (conditionnelle)
+
+Affichée uniquement si une ou plusieurs factures sont `overdue` :
 
 ```
-┌──────────────┬──────────────┬──────────────┐
-│  Total payé  │  En attente  │  En retard   │
-│  8 000 € TTC │  3 500 € TTC │  1 000 € TTC │
-└──────────────┴──────────────┴──────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│  ⚠  Vous avez 1 facture en retard                              │
+│     Facture #2024-0039 — 1 000,00 € — Échue le 5 janv. 2025   │
+│                                          [Payer maintenant →]  │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-#### Filtres
+Si plusieurs factures `overdue` :
+```
+⚠  Vous avez 2 factures en retard — Total : 2 000,00 €    [Voir les factures en retard]
+```
+
+### Métriques de synthèse
+
+Visibles uniquement si au moins une facture existe (données TTC uniquement) :
 
 ```
-[Tous] [À payer] [Payées] [En retard]
+┌──────────────────┬──────────────────┬──────────────────┐
+│  Total payé      │  À régler        │  En retard       │
+│  8 000,00 € TTC  │  3 500,00 € TTC  │  1 000,00 € TTC  │
+└──────────────────┴──────────────────┴──────────────────┘
 ```
 
-#### Liste des factures
+La card "En retard" est rouge (`--color-error-*`) si montant > 0, grise sinon.
 
-Cards `CardInvoice` ou tableau simplifié.
+### Filtres
 
-Colonnes : N° Facture, Date émission, Échéance, Montant TTC, Statut, Actions
+```
+[Toutes]  [À payer]  [En retard]  [Payées]
+```
+
+### Liste des factures
+
+Tableau sur desktop, cards empilées sur mobile.
+
+Colonnes : N° facture | Émise le | Échéance | Montant TTC | Statut | Actions
 
 **Actions par statut** :
 
-| Statut | Actions |
-|---|---|
-| `draft` | Non visible (brouillons jamais exposés au client) |
-| `issued` | Voir, Payer (si `pay:invoice`) |
-| `paid` | Voir, Télécharger |
-| `overdue` | Voir, Payer (si `pay:invoice`) — card mise en avant |
-| `partially_paid` | Voir |
+| Statut | Visible | Actions |
+|---|---|---|
+| `draft` | Non | — (jamais exposé au client) |
+| `issued` | Oui | [Voir] · [Payer] (si `pay:invoice`) |
+| `overdue` | Oui | [Voir] · [Payer] (si `pay:invoice`) — ligne surlignée error |
+| `paid` | Oui | [Voir] · [Télécharger le reçu] |
+| `partially_paid` | Oui | [Voir] · [Payer le solde] (si `pay:invoice`) |
+| `refund` | Oui | [Voir] |
 
-#### Alerte facture en retard
-
-Banner d'alerte en haut si facture `overdue` :
+### État vide
 
 ```
-⚠ Vous avez une facture en retard.
-1 000,00 € — Facture #2024-0039 — Échue le 5 janv. 2025
-[Payer maintenant]
+Aucune facture pour l'instant.
+L'organisation vous notifiera lorsqu'une facture sera émise.
 ```
 
 ---
 
 ## Page Détail (`/invoices/:invoiceId`)
 
-### Structure
-
-Document facture formaté :
+### Document facture formaté
 
 ```
-                          FACTURE #2024-0042
-Mon Agence SAS                         Date : 15 janv. 2025
-12 rue du Commerce                     Échéance : 15 févr. 2025
-75001 Paris
-SIRET : 123 456 789 00000
-
-Adressée à :
-Dupont & Associés
-45 avenue des Fleurs, 69001 Lyon
-
-Désignation                  Qté     Prix unitaire    Total HT
-─────────────────────────────────────────────────────────────
-Développement web             1       1 500,00 €     1 500,00 €
-Hébergement                   12         15,00 €       180,00 €
-─────────────────────────────────────────────────────────────
-                                         Total HT : 1 680,00 €
-                                         TVA (20%) :  336,00 €
-                                         Total TTC : 2 016,00 €
-
-Statut : ÉMISE
+┌─────────────────────────────────────────────────────────────────┐
+│                                    FACTURE #2024-0042           │
+│  Mon Agence SAS                    Date : 15 janv. 2025         │
+│  12 rue du Commerce                Échéance : 15 févr. 2025     │
+│  75001 Paris                                                    │
+│  SIRET : 123 456 789 00000                                      │
+│                                                                 │
+│  Adressée à :                                                   │
+│  Dupont & Associés                                              │
+│  45 avenue des Fleurs, 69001 Lyon                               │
+│                                                                 │
+│  Désignation                     Qté      Total TTC             │
+│  ─────────────────────────────────────────────────             │
+│  Développement web                 1    1 800,00 €              │
+│  Hébergement (12 mois)            12      216,00 €              │
+│  ─────────────────────────────────────────────────             │
+│                           Total TTC :   2 016,00 €              │
+│                                                                 │
+│  Statut : [ÉMISE]                                               │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Actions
+> Note : seuls les montants TTC sont affichés. Les montants HT, taux de TVA et taux horaires internes sont masqués.
 
-- [Télécharger PDF]
-- [Payer maintenant] — `Button primary` — visible uniquement si `issued` ou `overdue` ET `pay:invoice`
+### Panneau d'actions (sticky desktop, sous le document sur mobile)
 
-**Comportement "Payer maintenant"** :
-1. Redirection vers lien Stripe externe (nouvel onglet ou redirect)
-2. Retour sur la page après paiement
-3. Statut mis à jour via webhook Stripe (peut nécessiter un délai)
-4. Message : "Votre paiement est en cours de traitement. Le statut sera mis à jour sous peu."
+**Facture `issued` :**
+
+```
+[Télécharger le PDF]
+[Payer maintenant — 2 016,00 €]   ← Button primary (si pay:invoice)
+```
+
+**Facture `overdue` :**
+
+```
+⚠ Cette facture est en retard depuis le 15 févr. 2025.
+
+[Télécharger le PDF]
+[Payer maintenant — 2 016,00 €]   ← Button danger (si pay:invoice)
+```
+
+**Facture `partially_paid` :**
+
+```
+Paiement partiel enregistré.
+Déjà payé : 1 000,00 €
+Solde restant : 1 016,00 €
+
+[Télécharger le PDF]
+[Payer le solde — 1 016,00 €]   ← Button primary (si pay:invoice)
+```
+
+**Facture `paid` :**
+
+```
+✓ Payée le 20 févr. 2025
+
+[Télécharger le PDF]
+[Télécharger le reçu de paiement]
+```
+
+**Sans permission `pay:invoice` (lecture seule) :**
+
+Le bouton paiement est masqué. À la place :
+> "Le paiement doit être effectué par le responsable financier de votre organisation."
 
 ---
 
-## Données non affichées (confidentielles)
+## Flux de paiement Stripe
 
-- Montant HT des lignes (sauf si même que TTC car TVA 0%)
-- Taux horaire interne
-- Marges
-- Informations bancaires de l'agence
+1. Clic sur [Payer maintenant] → `Button` passe en `loading`
+2. POST `/api/invoices/:id/payment-link` → URL Stripe
+3. Redirect vers Stripe Checkout (nouvel onglet ou redirect selon config)
+4. Après paiement Stripe → retour sur `/client/:projectId/invoices/:invoiceId`
+5. Bandeau de confirmation affiché :
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  ✓ Votre paiement a été reçu.                              │
+│  Le statut de cette facture sera mis à jour sous peu.       │
+│  Un reçu vous a été envoyé par email.                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+Le statut `paid` est définitivement mis à jour via webhook Stripe (peut prendre quelques secondes).
 
 ---
 
-## Gestion multi-représentants
+## Règles d'affichage
 
-Un client peut avoir plusieurs comptes représentants dans la même zone. Seuls ceux avec la permission `pay:invoice` voient le bouton paiement. L'organisation Client Wall ne gère pas le partage interne du paiement entre représentants — c'est la responsabilité du client.
+- Les factures `draft` ne sont **jamais** visibles dans la zone client.
+- Les montants affichés sont **toujours TTC**.
+- La décomposition HT/TVA n'est pas affichée (disponible dans le PDF téléchargeable).
+- Plusieurs représentants d'un même client peuvent voir les factures, mais seul celui avec `pay:invoice` voit le bouton de paiement.
+
+---
+
+## États
+
+| État | Affichage |
+|---|---|
+| Loading liste | Skeleton métriques + skeleton 5 lignes |
+| Loading détail | Skeleton document |
+| Erreur chargement | Alert error + [Réessayer] |
+| Paiement en cours | Bouton loading + message "Redirection vers le paiement..." |
+| Après retour Stripe | Bandeau confirmation |
 
 ---
 
 ## Responsive
 
-| Breakpoint | Comportement |
-|---|---|
-| Mobile | Cards factures, bouton payer prominent |
-| Tablet | Tableau + bouton payer |
-| Desktop | Document facture centré + sidebar actions |
+| Breakpoint | Liste | Détail |
+|---|---|---|
+| Mobile | Cards factures pleine largeur, bouton payer prominent | Document en scroll, actions en bas |
+| Tablet | Tableau simplifié (N°, montant, statut, action) | Document max-width 640px + actions sous |
+| Desktop | Tableau complet | Document max-width 800px + sidebar actions sticky (300px) |
