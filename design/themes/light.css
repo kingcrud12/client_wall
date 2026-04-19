@@ -1,0 +1,133 @@
+/**
+ * Client Wall — Thème Clair (Light)
+ * Valeurs par défaut du thème.
+ * Ce fichier redéfinit les tokens sémantiques pour le mode clair.
+ */
+
+:root,
+html.light {
+  color-scheme: light;
+
+  /* === SURFACES === */
+  --color-bg-page:    #F8FAFC; /* neutral-50 */
+  --color-bg-surface: #FFFFFF; /* neutral-0 */
+  --color-bg-subtle:  #F1F5F9; /* neutral-100 */
+  --color-bg-muted:   #E2E8F0; /* neutral-200 */
+
+  /* === TEXTE === */
+  --color-text-primary:   #0F172A; /* neutral-900 */
+  --color-text-secondary: #475569; /* neutral-600 */
+  --color-text-muted:     #94A3B8; /* neutral-400 */
+  --color-text-disabled:  #CBD5E1; /* neutral-300 */
+  --color-text-inverse:   #FFFFFF; /* neutral-0 */
+  --color-text-link:      #4F46E5; /* primary-600 */
+  --color-text-link-hover:#4338CA; /* primary-700 */
+
+  /* === BORDURES === */
+  --color-border-default: #E2E8F0; /* neutral-200 */
+  --color-border-strong:  #CBD5E1; /* neutral-300 */
+  --color-border-focus:   #6366F1; /* primary-500 */
+  --color-border-error:   #F43F5E; /* error-500 */
+
+  /* === BOUTONS === */
+  /* Primaire */
+  --btn-primary-bg:        #4338CA;
+  --btn-primary-bg-hover:  #3730A3;
+  --btn-primary-bg-active: #312E81;
+  --btn-primary-text:      #FFFFFF;
+  --btn-primary-border:    transparent;
+
+  /* Secondaire */
+  --btn-secondary-bg:        #FFFFFF;
+  --btn-secondary-bg-hover:  #F8FAFC;
+  --btn-secondary-bg-active: #F1F5F9;
+  --btn-secondary-text:      #334155;
+  --btn-secondary-border:    #E2E8F0;
+
+  /* Ghost */
+  --btn-ghost-bg:        transparent;
+  --btn-ghost-bg-hover:  #F1F5F9;
+  --btn-ghost-bg-active: #E2E8F0;
+  --btn-ghost-text:      #475569;
+  --btn-ghost-border:    transparent;
+
+  /* Danger */
+  --btn-danger-bg:        #E11D48;
+  --btn-danger-bg-hover:  #BE123C;
+  --btn-danger-bg-active: #9F1239;
+  --btn-danger-text:      #FFFFFF;
+  --btn-danger-border:    transparent;
+
+  /* === INPUTS === */
+  --input-bg:          #FFFFFF;
+  --input-bg-disabled: #F1F5F9;
+  --input-border:      #CBD5E1;
+  --input-border-hover:#94A3B8;
+  --input-border-focus:#6366F1;
+  --input-border-error:#F43F5E;
+  --input-text:        #0F172A;
+  --input-placeholder: #94A3B8;
+
+  /* === NAVIGATION (Zone Admin - Slate) === */
+  --sidebar-bg:           #0F172A; /* primary-900 */
+  --sidebar-text:         #CBD5E1; /* primary-300 */
+  --sidebar-text-muted:   #94A3B8; /* primary-400 */
+  --sidebar-item-hover:   #1E293B; /* primary-800 */
+  --sidebar-item-active:  rgba(99, 102, 241, 0.12); /* primary indigo */
+  --sidebar-item-active-text: #A5B4FC; /* primary-300 */
+  --sidebar-border:       #1E293B; /* primary-800 */
+
+  /* === TOPBAR === */
+  --topbar-bg:     #FFFFFF;
+  --topbar-border: #E2E8F0;
+  --topbar-text:   #0F172A;
+
+  /* === CARDS === */
+  --card-bg:     #FFFFFF;
+  --card-border: #E2E8F0;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+
+  /* === TABLEAUX === */
+  --table-header-bg:   #F8FAFC;
+  --table-header-text: #64748B;
+  --table-row-hover:   #F8FAFC;
+  --table-border:      #E2E8F0;
+  --table-text:        #334155;
+
+  /* === BADGES (par statut) === */
+  /* Draft / Neutral */
+  --badge-neutral-bg:   #F1F5F9;
+  --badge-neutral-text: #475569;
+
+  /* Issued / Info */
+  --badge-info-bg:   #E0F2FE;
+  --badge-info-text: #0284C7;
+
+  /* Paid / Success */
+  --badge-success-bg:   #D1FAE5;
+  --badge-success-text: #059669;
+
+  /* Overdue / Warning */
+  --badge-warning-bg:   #FEF3C7;
+  --badge-warning-text: #D97706;
+
+  /* Error / Rejected */
+  --badge-error-bg:   #FFE4E6;
+  --badge-error-text: #E11D48;
+
+  /* Primary / Refund */
+  --badge-primary-bg:   #E0E7FF;
+  --badge-primary-text: #4338CA;
+
+  /* === ÉTATS FOCUS === */
+  --focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.35); /* primary indigo @ 35% */
+  --focus-ring-error: 0 0 0 3px rgba(244, 63, 94, 0.4);
+
+  /* === OVERLAYS === */
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+
+  /* === SCROLLBAR === */
+  --scrollbar-track: #F1F5F9;
+  --scrollbar-thumb: #CBD5E1;
+  --scrollbar-thumb-hover: #94A3B8;
+}
